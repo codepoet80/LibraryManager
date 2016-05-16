@@ -176,11 +176,10 @@ namespace LibraryManager
                     {
                         libraryDataDataSetBooksTableAdapter.Insert(bookNameTextBox.Text, bookAuthorTextBox.Text, bookYear, bookBarCodeTextBox.Text, bookCategoryTextBox.Text, bookTypeTextBox.Text, txtNotes.Text);
                         libraryDataDataSet.Books.AcceptChanges();
-
                         libraryDataDataSetBooksTableAdapter.Fill(libraryDataDataSet.Books);
                         booksViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("booksViewSource")));
                         booksViewSource.View.MoveCurrentToLast();
-
+                        
                         //Reset UI for browse
                         spnlNavigateBooks.IsEnabled = true;
                         booksDataGrid.IsEnabled = true;
@@ -189,6 +188,29 @@ namespace LibraryManager
                         cmdDuplicate.Visibility = Visibility.Visible;
                         cmdGetNextNumber.Visibility = Visibility.Collapsed;
                         bookIDTextBox.Visibility = Visibility.Visible;
+
+                        //Select and scroll to the last inserted row
+                        //TODO: Still doesn't work for non-numerical sort orders
+                        DataRow[] foundRows;
+                        foundRows = libraryDataDataSet.Tables["Books"].Select("BookBarCode Like '" + bookBarCodeTextBox.Text + "'");
+                        if (foundRows != null && foundRows[0] != null)
+                        {
+                            //Find a rowview whose row matches the last inserted row (TODO: Is there a better way to do this?)
+                            foreach (DataRowView rowView in booksViewSource.View)
+                            {
+                                DataRow row = rowView.Row;
+                                if (rowView.Row == foundRows[0])
+                                {
+                                    booksViewSource.View.MoveCurrentTo(rowView);
+                                    booksDataGrid.SelectedItem = booksViewSource.View.CurrentItem;
+                                }
+                            }
+                        }
+
+                        //Scroll to the seleted item
+                        if (booksDataGrid.SelectedItem != null)
+                            booksDataGrid.ScrollIntoView(booksDataGrid.SelectedItem);
+
                     }
                     else
                     {
@@ -201,9 +223,9 @@ namespace LibraryManager
 
         private void doNew(object sender, RoutedEventArgs e)
         {
-            libraryDataDataSet.Books.AddBooksRow("", "", 0, "", "", "", "");
             booksViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("booksViewSource")));
-            booksViewSource.View.MoveCurrentToLast();
+            DataRow newRow = libraryDataDataSet.Books.AddBooksRow("", "", 0, "", "", "", "");
+            booksViewSource.View.MoveCurrentTo(newRow); //May 2016: Move to the newly created row, instead of the bottom of the grid.
             bookIDTextBox.Visibility = Visibility.Collapsed;
             spnlNavigateBooks.IsEnabled = false;
             booksDataGrid.IsEnabled = false;
