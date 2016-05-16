@@ -1,0 +1,24 @@
+﻿<my:LocalizedReport x:Class="LibraryManager.Reports.BookHistory"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:my="clr-namespace:LibraryManager"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+	  Title="BookHistory" xmlns:my1="clr-namespace:LibraryManager.Reports">
+    <my:LocalizedReport.Resources>
+        <my1:BookHistoryDataSet x:Key="bookHistoryDataSet" />
+        <CollectionViewSource x:Key="bookHistoryQueryViewSource" Source="{Binding Path=BookHistoryQuery, Source={StaticResource bookHistoryDataSet}, Mode=OneTime}" />
+    </my:LocalizedReport.Resources>
+    <Grid DataContext="{StaticResource bookHistoryQueryViewSource}">
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" HorizontalAlignment="Stretch" ItemsSource="{Binding}" Name="bookHistoryQueryDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Stretch" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="bookNameColumn" Binding="{Binding Path=BookName, Mode=OneTime}" Header="Book Name" IsReadOnly="True" Width="200" />
+                <DataGridTextColumn x:Name="lendDateColumn" Binding="{Binding Path=LendDate, Mode=OneTime}" Header="Lend Date" IsReadOnly="True" Width="120" />
+                <DataGridCheckBoxColumn x:Name="returnedColumn" Binding="{Binding Path=Returned, Mode=OneTime}" Header="Returned" IsReadOnly="True" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="borrowerNameColumn" Binding="{Binding Path=BorrowerName, Mode=OneTime}" Header="Borrower Name" IsReadOnly="True" Width="200" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</my:LocalizedReport>

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="BooksOnLoanDataSet" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="booksOnLoanDataTableTableAdapter" GeneratorFunctionsComponentClassName="booksOnLoanDataTableTableAdapter1" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" UserFunctionsComponentName="booksOnLoanDataTableTableAdapter" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="LibraryDataConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="LibraryDataConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.LibraryManager.Properties.Settings.GlobalReference.Default.LibraryDataConnectionString" Provider="Microsoft.SqlServerCe.Client.3.5" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="booksOnLoanDataTableTableAdapter" GeneratorDataComponentClassName="booksOnLoanDataTableTableAdapter" Name="booksOnLoanDataTable" UserDataComponentName="booksOnLoanDataTableTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="LibraryDataConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT        Lending.LendDate, Books.BookName, Borrowers.BorrowerName, Borrowers.BorrowerPhone, Books.BookBarCode
+FROM            Lending INNER JOIN
+                         Books ON Lending.BookID = Books.BookBarCode INNER JOIN
+                         Borrowers ON Lending.BorrowerID = Borrowers.BorrowerBarCode
+WHERE        (Lending.Returned = 'false')</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="LendDate" DataSetColumn="LendDate" />
+              <Mapping SourceColumn="BookName" DataSetColumn="BookName" />
+              <Mapping SourceColumn="BorrowerName" DataSetColumn="BorrowerName" />
+              <Mapping SourceColumn="BorrowerPhone" DataSetColumn="BorrowerPhone" />
+              <Mapping SourceColumn="BookBarCode" DataSetColumn="BookBarCode" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="BooksOnLoanDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="BooksOnLoanDataSet" msprop:Generator_UserDSName="BooksOnLoanDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="booksOnLoanDataTable" msprop:Generator_TableClassName="booksOnLoanDataTableDataTable" msprop:Generator_TableVarName="tablebooksOnLoanDataTable" msprop:Generator_TablePropName="booksOnLoanDataTable" msprop:Generator_RowDeletingName="booksOnLoanDataTableRowDeleting" msprop:Generator_UserTableName="booksOnLoanDataTable" msprop:Generator_RowChangingName="booksOnLoanDataTableRowChanging" msprop:Generator_RowEvHandlerName="booksOnLoanDataTableRowChangeEventHandler" msprop:Generator_RowDeletedName="booksOnLoanDataTableRowDeleted" msprop:Generator_RowEvArgName="booksOnLoanDataTableRowChangeEvent" msprop:Generator_RowChangedName="booksOnLoanDataTableRowChanged" msprop:Generator_RowClassName="booksOnLoanDataTableRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="LendDate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnLendDate" msprop:Generator_ColumnPropNameInRow="LendDate" msprop:Generator_ColumnPropNameInTable="LendDateColumn" msprop:Generator_UserColumnName="LendDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="BookName" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBookName" msprop:Generator_ColumnPropNameInRow="BookName" msprop:Generator_ColumnPropNameInTable="BookNameColumn" msprop:Generator_UserColumnName="BookName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BorrowerName" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBorrowerName" msprop:Generator_ColumnPropNameInRow="BorrowerName" msprop:Generator_ColumnPropNameInTable="BorrowerNameColumn" msprop:Generator_UserColumnName="BorrowerName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BorrowerPhone" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBorrowerPhone" msprop:Generator_ColumnPropNameInRow="BorrowerPhone" msprop:Generator_ColumnPropNameInTable="BorrowerPhoneColumn" msprop:Generator_UserColumnName="BorrowerPhone" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BookBarCode" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBookBarCode" msprop:Generator_ColumnPropNameInRow="BookBarCode" msprop:Generator_ColumnPropNameInTable="BookBarCodeColumn" msprop:Generator_UserColumnName="BookBarCode" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

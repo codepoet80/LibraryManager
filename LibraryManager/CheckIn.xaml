@@ -1,0 +1,33 @@
+﻿<my:LocalizedWindow x:Class="LibraryManager.CheckInWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:LibraryManager"
+        Title="Check In" Tag="CheckIn" MinHeight="240" MinWidth="490" Height="240" Width="490" Loaded="Window_Loaded" Icon="/LibraryManager;component/Resources/BookIn.ico" Background="{DynamicResource WindowBackgroundBrush}">
+    <Grid>
+        <StackPanel MinHeight="100" Grid.IsSharedSizeScope="True" HorizontalAlignment="Stretch" Margin="10" Name="stackPanel1" VerticalAlignment="Center" MinWidth="200">
+            <Grid MinHeight="40" Name="gridBook" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*" MinHeight="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Heading" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Tag="ScanBookID" Content="Scan or Enter Book ID:" Height="30" HorizontalAlignment="Right" Margin="0" Name="lblScanBook" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Height="30" HorizontalAlignment="Stretch" Margin="0,0,6,0" Name="txtBookID" VerticalAlignment="Center" AcceptsReturn="False" PreviewKeyDown="txtBookID_PreviewKeyDown" LostFocus="txtBookID_LostFocus" />
+                <Label Name="lblBookName" Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="2" FontStyle="Italic" Margin="6,2" HorizontalAlignment="Center" />
+            </Grid>
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Name="lblCheckInStatus" HorizontalAlignment="Center" FontStyle="Italic" />
+                <Button Name="cmdOK" Tag="OK" Content="OK" Grid.Column="1" Margin="6" MinWidth="40" MinHeight="30" PreviewKeyDown="cmdOK_PreviewKeyDown" Click="cmdOK_Click"/>
+                <Button Name="cmdCancel" Tag="Cancel" Content="Cancel" Grid.Column="2" Margin="6" MinWidth="60" MinHeight="30" Click="cmdCancel_Click"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</my:LocalizedWindow>

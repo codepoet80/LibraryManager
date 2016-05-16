@@ -1,0 +1,87 @@
+﻿<my:LocalizedWindow x:Class="LibraryManager.BorrowersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:LibraryManager"
+        Title="Borrowers" Tag="Borrowers" Height="375" Width="774" Loaded="Window_Loaded" Icon="/LibraryManager;component/Resources/Borrowers.ico" Background="{DynamicResource WindowBackgroundBrush}">
+    <my:LocalizedWindow.Resources>
+        <my:LibraryDataDataSet x:Key="libraryDataDataSet" />
+        <CollectionViewSource x:Key="borrowersViewSource" Source="{Binding Path=Borrowers, Source={StaticResource libraryDataDataSet}}" />
+    </my:LocalizedWindow.Resources>
+    <Grid DataContext="{StaticResource borrowersViewSource}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.6*" />
+            <ColumnDefinition Width="0.4*" MaxWidth="400"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="12" Name="borrowersDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Stretch" SelectionChanged="borrowersDataGrid_SelectionChanged" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="borrowerNameColumn" Binding="{Binding Path=BorrowerName}" Header="BorrowerName" Width="160" />
+                <DataGridTextColumn x:Name="borrowerAddressColumn" Binding="{Binding Path=BorrowerAddress}" Header="BorrowerAddress" Width="150" />
+                <DataGridTextColumn x:Name="borrowerPhoneColumn" Binding="{Binding Path=BorrowerPhone}" Header="BorrowerPhone" Width="100" />
+                <DataGridTextColumn x:Name="borrowerEmailColumn" Binding="{Binding Path=BorrowerEmail}" Header="BorrowerEmail" Width="100" />
+                <DataGridCheckBoxColumn x:Name="borrowerSuspendedColumn" Binding="{Binding Path=BorrowerSuspended}" Header="BorrowerSuspended" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="borrowerBarCodeColumn" Binding="{Binding Path=BorrowerBarCode}" Header="BorrowerBarCode" Width="120" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="12,0,0,0" Name="spnlNavigateBorrowers">
+            <Button Grid.Row="1" Content="|&lt;" Height="23" HorizontalAlignment="Right" Name="cmdFirst" VerticalAlignment="Top" Width="75" Click="doFirst" />
+            <Button Grid.Row="1" Content="&lt;" Height="23" HorizontalAlignment="Right" Name="cmdPrev" VerticalAlignment="Top" Width="75" Click="doPrev" />
+            <Button Grid.Row="1" Content="&gt;" Height="23" HorizontalAlignment="Right" Name="cmdNext" VerticalAlignment="Top" Width="75" Click="doNext" />
+            <Button Grid.Row="1" Content="&gt;|" Height="23" HorizontalAlignment="Right" Name="cmdLast" VerticalAlignment="Top" Width="75" Click="doLast" />
+            <Button Grid.Row="1" Content="New" Tag="New" Height="23" HorizontalAlignment="Right" Name="cmdNew" VerticalAlignment="Top" Width="75" Click="doNew" Margin="25,0,0,0" />
+        </StackPanel>
+        <TabControl Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,13,6">
+            <TabItem Name="tabDetails" Header="Details" Tag="Details" >
+                <Grid HorizontalAlignment="Stretch" Margin="12" Name="gridEditBorrower" VerticalAlignment="Top" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Tag="BorrowerID" Content="Borrower ID:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="1" Grid.Row="0" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="borrowerIDTextBox" Text="{Binding Path=BorrowerID, Mode=OneWay}" VerticalAlignment="Center" IsEnabled="False"/>
+                    <Label Tag="BorrowerName" Content="Borrower Name:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="borrowerNameTextBox" Text="{Binding Path=BorrowerName, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="150" />
+                    <Label Tag="BorrowerAddress" Content="Borrower Address:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="borrowerAddressTextBox" Text="{Binding Path=BorrowerAddress, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="400" />
+                    <Label Tag="BorrowerPhone" Content="Borrower Phone:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="1" Grid.Row="3" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="borrowerPhoneTextBox" Text="{Binding Path=BorrowerPhone, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="100" />
+                    <Label Tag="BorrowerEmail" Content="Borrower Email:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="1" Grid.Row="4" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="borrowerEmailTextBox" Text="{Binding Path=BorrowerEmail, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="100" />
+                    <Label Tag="BorrowerSuspended" Content="Borrower Suspended:" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                    <CheckBox Content="" Grid.Column="1" Grid.Row="5" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=BorrowerSuspended, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="borrowerSuspendedCheckBox" VerticalAlignment="Center" />
+                    <Label Tag="BorrowerBarCode" Content="Borrower Bar Code:" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                    <Grid Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Height="23" HorizontalAlignment="Stretch" Margin="3" Name="borrowerBarCodeTextBox" Text="{Binding Path=BorrowerBarCode, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="100" />
+                        <Button Grid.Column="1" Content="#" Height="23" HorizontalAlignment="Left" Name="cmdGetNextNumber" VerticalAlignment="Center" Width="40" Click="doGetNextNumber" Visibility="Collapsed" />
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Name="tabNotes" Header="Notes" Tag="Notes">
+                <TextBox Name="txtNotes" Text="{Binding Path=BorrowerNotes}" AcceptsReturn="True" TextWrapping="Wrap" />
+            </TabItem>
+        </TabControl>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="12,0,0,0" HorizontalAlignment="Right">
+            <Button Grid.Row="1" Grid.Column="1" Tag="Delete" Content="Delete" Height="23" HorizontalAlignment="Left" Name="cmdDelete" VerticalAlignment="Top" Width="75" Click="doDelete" Margin="0,0,12,0" />
+            <Button Grid.Row="1" Grid.Column="1" Tag="Cancel" Content="Cancel" Height="23" HorizontalAlignment="Left" Name="cmdCancel" VerticalAlignment="Top" Width="75" Click="doCancel" Margin="0,0,12,0" Visibility="Collapsed" />
+            <Button Grid.Row="1" Grid.Column="1" Tag="Save" Content="Save" Height="23" HorizontalAlignment="Left" Name="cmdSave" VerticalAlignment="Top" Width="75" Click="doSave" Margin="0,0,12,0" />
+        </StackPanel>
+        
+    </Grid>
+</my:LocalizedWindow>

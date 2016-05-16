@@ -1,0 +1,28 @@
+﻿<my:LocalizedWindow x:Class="LibraryManager.LanguagesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:LibraryManager" 
+        Height="400" Width="700" MinWidth="500"
+        Title="Languages" Tag="Languages" Icon="/LibraryManager;component/Resources/Books.ico" Background="{DynamicResource WindowBackgroundBrush}" Loaded="LocalizedWindow_Loaded">
+    <my:LocalizedWindow.Resources>
+        <my:LibraryDataDataSet x:Key="libraryDataDataSet" />
+        <CollectionViewSource x:Key="languageViewSource" Source="{Binding Path=Language, Source={StaticResource libraryDataDataSet}}" />
+    </my:LocalizedWindow.Resources>
+    <Grid DataContext="{StaticResource languageViewSource}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Name="cmdSave" Content="Save" Tag="Save" Click="doSave" MinWidth="50" Margin="3,0,3,0"/>
+        </StackPanel>
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Grid.Row="1" HorizontalAlignment="Stretch" ItemsSource="{Binding}" Name="languageDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Stretch">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="promptIdColumn" Binding="{Binding Path=PromptId}" Header="Prompt Id" IsReadOnly="True" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="promptLanguageIdColumn" Binding="{Binding Path=PromptLanguageId}" Header="Prompt Language Id" Width="80" />
+                <DataGridTextColumn x:Name="promptTagColumn" Binding="{Binding Path=PromptTag}" Header="Prompt Tag" Width="200" />
+                <DataGridTextColumn x:Name="promptStringColumn" Binding="{Binding Path=PromptString}" Header="Prompt String" Width="300" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</my:LocalizedWindow>

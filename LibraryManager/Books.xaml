@@ -1,0 +1,89 @@
+﻿<my:LocalizedWindow x:Class="LibraryManager.BooksWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:LibraryManager" 
+        Title="Books" Tag="Books" Height="380" Width="775" MinWidth="775" Loaded="Window_Loaded" Icon="/LibraryManager;component/Resources/Books.ico" Background="{DynamicResource WindowBackgroundBrush}" SizeChanged="LocalizedWindow_SizeChanged">
+    <my:LocalizedWindow.Resources>
+        <my:LibraryDataDataSet x:Key="libraryDataDataSet" />
+        <CollectionViewSource x:Key="booksViewSource" Source="{Binding Path=Books, Source={StaticResource libraryDataDataSet}}" />
+    </my:LocalizedWindow.Resources>
+    <Grid DataContext="{StaticResource booksViewSource}" x:Name="grdBook">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.6*" />
+            <ColumnDefinition Width="0.4*" MaxWidth="400"/>
+        </Grid.ColumnDefinitions>
+ 
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="12" Name="booksDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Stretch" SelectionChanged="booksDataGrid_SelectionChanged" SelectionMode="Single" HorizontalContentAlignment="Stretch">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="bookIDColumn" Binding="{Binding Path=BookID}" Header=" " Width="12" IsReadOnly="True" SortDirection="Descending"/>
+                <DataGridTextColumn x:Name="bookNameColumn" Binding="{Binding Path=BookName}" Header="BookName" MinWidth="200" IsReadOnly="True" />
+                <DataGridTextColumn x:Name="bookAuthorColumn" Binding="{Binding Path=BookAuthor}" Header="BookAuthor" Width="200" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="bookYearColumn" Binding="{Binding Path=BookYear}" Header="BookYear" Width="70" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="bookCategoryColumn" Binding="{Binding Path=BookCategory}" Header="BookCategory" MinWidth="180" MaxWidth="300" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="bookTypeColumn" Binding="{Binding Path=BookType}" Header="BookType" Width="70" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="bookBarCodeColumn" Binding="{Binding Path=BookBarCode}" Header="BookBarCode" Width="90" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="12,0,0,0" Name="spnlNavigateBooks">
+            <Button Grid.Row="1" Content="|&lt;" Height="23" HorizontalAlignment="Right" Name="cmdFirst" VerticalAlignment="Top" Width="75" Click="doFirst" />
+            <Button Grid.Row="1" Content="&lt;" Height="23" HorizontalAlignment="Right" Name="cmdPrev" VerticalAlignment="Top" Width="75" Click="doPrev" />
+            <Button Grid.Row="1" Content="&gt;" Height="23" HorizontalAlignment="Right" Name="cmdNext" VerticalAlignment="Top" Width="75" Click="doNext" />
+            <Button Grid.Row="1" Content="&gt;|" Height="23" HorizontalAlignment="Right" Name="cmdLast" VerticalAlignment="Top" Width="75" Click="doLast" />
+            <Button Grid.Row="1" Content="New" Tag="New" Height="23" HorizontalAlignment="Right" Name="cmdNew" VerticalAlignment="Top" Width="75" Click="doNew" Margin="25,0,0,0" />
+        </StackPanel>
+
+        <TabControl Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,13,6">
+            <TabItem Name="tabDetails" Header="Details" Tag="Details" >
+                <Grid HorizontalAlignment="Stretch" Margin="12" Name="gridEditBook" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Tag="BookId" Content="Book ID:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Grid.Row="0" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="bookIDTextBox" Text="{Binding Path=BookID, Mode=OneWay}" VerticalAlignment="Center" Width="Auto" IsEnabled="False"/>
+                <Label Tag="BookName" Content="Book Name:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="bookNameTextBox" Text="{Binding Path=BookName, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="200" />
+                <Label Tag="BookAuthor" Content="Book Author:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="bookAuthorTextBox" Text="{Binding Path=BookAuthor, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="200" />
+                <Label Tag="BookYear" Content="Book Year:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Grid.Row="3" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="bookYearTextBox" Text="{Binding Path=BookYear, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="4" />
+                <Label Tag="BookCategory" Content="Book Category:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Grid.Row="4" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="bookCategoryTextBox" Text="{Binding Path=BookCategory, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="200" />
+                <Label Tag="BookType" Content="Book Type:" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Grid.Row="5" Height="23" HorizontalAlignment="Stretch" Margin="3" Name="bookTypeTextBox" Text="{Binding Path=BookType, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="150" />
+                <Label Tag="BookBarCode" Content="Book Barcode:" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+                <Grid Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Height="23" HorizontalAlignment="Stretch" Margin="3" Name="bookBarCodeTextBox" Text="{Binding Path=BookBarCode, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="Auto" MaxLength="200" />
+                    <Button Grid.Column="1" Content="#" Height="23" HorizontalAlignment="Left" Name="cmdGetNextNumber" VerticalAlignment="Center" Width="40" Click="doGetNextNumber" Visibility="Collapsed" />
+                </Grid>
+            </Grid>
+            </TabItem>
+            <TabItem Name="tabNotes" Header="Notes" Tag="Notes">
+                <TextBox Name="txtNotes" Text="{Binding Path=BookNotes}" AcceptsReturn="True" TextWrapping="Wrap" />
+            </TabItem>
+        </TabControl>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="12,0,0,0" HorizontalAlignment="Right">
+            <Button Grid.Row="1" Grid.Column="1" Tag="Duplicate" Content="Duplicate" Height="23" HorizontalAlignment="Left" Name="cmdDuplicate" VerticalAlignment="Top" Width="75" Click="doDuplicate" Margin="0,0,12,0" />
+            <Button Grid.Row="1" Grid.Column="1" Tag="Delete" Content="Delete" Height="23" HorizontalAlignment="Left" Name="cmdDelete" VerticalAlignment="Top" Width="75" Click="doDelete" Margin="0,0,12,0" />
+            <Button Grid.Row="1" Grid.Column="1" Tag="Cancel" Content="Cancel" Height="23" HorizontalAlignment="Left" Name="cmdCancel" VerticalAlignment="Top" Width="75" Click="doCancel" Margin="0,0,12,0" Visibility="Collapsed" />
+            <Button Grid.Row="1" Grid.Column="1" Tag="Save" Content="Save" Height="23" HorizontalAlignment="Left" Name="cmdSave" VerticalAlignment="Top" Width="75" Click="doSave" Margin="0,0,12,0" />
+        </StackPanel>
+    </Grid>
+</my:LocalizedWindow>
